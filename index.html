@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>심영웅</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="app">
+    <header>
+      <h1>심영웅</h1>
+    </header>
+
+    <div class="grid">
+      <main>
+        <section class="card">
+          <h2>1. 기본 정보 입력</h2>
+          <div class="notice">
+            19세 미만은 모델 적용 대상이 아닙니다. 나이는 숫자로 입력하면 분석 기준에 따라 자동으로 연령군이 분류됩니다.
+          </div>
+
+          <div class="two-col">
+            <div class="field">
+              <label for="sex">성별</label>
+              <select id="sex">
+                <option value="">선택 안 함</option>
+                <option value="male">남성</option>
+                <option value="female">여성</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="age">나이</label>
+              <input id="age" type="number" min="0" max="120" placeholder="예: 70" />
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="field">
+              <label for="height">키(cm)</label>
+              <input id="height" type="number" min="100" max="230" placeholder="예: 175" />
+            </div>
+
+            <div class="field">
+              <label for="weight">몸무게(kg)</label>
+              <input id="weight" type="number" min="30" max="250" placeholder="예: 70" />
+            </div>
+          </div>
+
+          <h3>2. 질병력</h3>
+          <div class="two-col">
+            <div class="field">
+              <label for="hypertension">고혈압 진단 여부</label>
+              <select id="hypertension">
+                <option value="">선택 안 함</option>
+                <option value="no">없음</option>
+                <option value="yes">있음</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="diabetes">당뇨병 진단 여부</label>
+              <select id="diabetes">
+                <option value="">선택 안 함</option>
+                <option value="no">없음</option>
+                <option value="yes">있음</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="field">
+              <label for="dyslipidemia">이상지질혈증 진단 여부</label>
+              <select id="dyslipidemia">
+                <option value="">선택 안 함</option>
+                <option value="no">없음</option>
+                <option value="yes">있음</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="familyHistory">허혈성심질환 가족력</label>
+              <select id="familyHistory">
+                <option value="">선택 안 함</option>
+                <option value="no">없음</option>
+                <option value="yes">있음</option>
+              </select>
+            </div>
+          </div>
+
+          <h3>3. 생활습관 및 스트레스</h3>
+          <div class="two-col">
+            <div class="field">
+              <label for="smokingStatus">흡연 상태</label>
+              <select id="smokingStatus">
+                <option value="">선택 안 함</option>
+                <option value="never">비흡연/5갑 미만</option>
+                <option value="former">과거흡연</option>
+                <option value="current">현재흡연</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="stress">평소 스트레스 인지</label>
+              <select id="stress">
+                <option value="">선택 안 함</option>
+                <option value="no">없음</option>
+                <option value="yes">있음</option>
+              </select>
+            </div>
+          </div>
+
+          <h3>4. 응급 의심 증상</h3>
+          <div class="notice">
+            아래 4개 증상 중 2개 이상이 있으면 예측모델 결과와 관계없이 즉시 병원 방문을 권고합니다.
+          </div>
+
+          <div class="two-col">
+            <div class="field">
+              <label for="emergencyChestPain">지속되는 심한 가슴통증이 있나요?</label>
+              <select id="emergencyChestPain">
+                <option value="no">아니오</option>
+                <option value="yes">예</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="radiatingPain">팔·어깨·턱·등으로 퍼지는 통증이 있나요?</label>
+              <select id="radiatingPain">
+                <option value="no">아니오</option>
+                <option value="yes">예</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="field">
+              <label for="shortnessBreath">호흡곤란이 있나요?</label>
+              <select id="shortnessBreath">
+                <option value="no">아니오</option>
+                <option value="yes">예</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="coldSweat">식은땀, 어지러움, 혼돈이 있나요?</label>
+              <select id="coldSweat">
+                <option value="no">아니오</option>
+                <option value="yes">예</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="button-row">
+            <button class="btn-primary" onclick="runEvaluation()">위험도 계산하기</button>
+            <button class="btn-secondary" onclick="fillSampleLow()">예시: 70대 건강 남성</button>
+            <button class="btn-secondary" onclick="fillSampleYoungHigh()">예시: 젊은 고위험요인</button>
+            <button class="btn-secondary" onclick="resetForm()">초기화</button>
+          </div>
+        </section>
+      </main>
+
+      <aside>
+        <section class="card" id="resultSection">
+          <h2>결과</h2>
+
+          <div id="resultBanner" class="result-banner insufficient">아직 계산 전</div>
+
+          <p id="resultSummary" class="small">
+            필수 항목을 입력한 뒤 계산하기를 누르면 기본모델 위험등급이 표시됩니다.
+          </p>
+
+          <div class="metric-box">
+            <div class="metric">
+              <small>위험등급</small>
+              <strong id="metricGrade">-</strong>
+            </div>
+            <div class="metric">
+              <small>위험요인 개수</small>
+              <strong id="metricRiskCount">-</strong>
+            </div>
+          </div>
+
+          <h3>주요 해석</h3>
+          <ul id="reasonList"></ul>
+
+          <h3>권장 안내</h3>
+          <ul id="actionList"></ul>
+
+          <div id="missingWrap" class="pill-wrap"></div>
+
+          <details>
+            <summary>5단계 등급 기준 보기</summary>
+            <table class="grade-table">
+              <thead>
+                <tr>
+                  <th>등급</th>
+                  <th>내부 기준</th>
+                  <th>의미</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>양호</td>
+                  <td>낮은 예측위험</td>
+                  <td>현재 입력값 기준 심근경색 위험이 낮은 상태</td>
+                </tr>
+                <tr>
+                  <td>주의</td>
+                  <td>위험군 기준 미만</td>
+                  <td>위험군은 아니지만 생활습관 관리와 정기검진 권장</td>
+                </tr>
+                <tr>
+                  <td>경고</td>
+                  <td>위험군 기준 초과</td>
+                  <td>심혈관 위험요인 확인 및 관리 필요</td>
+                </tr>
+                <tr>
+                  <td>위험</td>
+                  <td>높은 위험 수준</td>
+                  <td>의료기관 상담 권장</td>
+                </tr>
+                <tr>
+                  <td>매우 위험</td>
+                  <td>매우 높은 위험 수준</td>
+                  <td>빠른 시일 내 의료기관 상담 권장</td>
+                </tr>
+              </tbody>
+            </table>
+          </details>
+        </section>
+      </aside>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
